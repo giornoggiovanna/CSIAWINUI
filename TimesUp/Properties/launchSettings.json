@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TimesUp (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "TimesUp (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
