@@ -1,6 +1,3 @@
-<!-- Copyright (c) Microsoft Corporation and Contributors. -->
-<!-- Licensed under the MIT License. -->
-
 <Window
     x:Class="TimesUp.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -10,7 +7,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-    </StackPanel>
+    <NavigationView x:Name="SideBar" PaneDisplayMode="Left" ItemInvoked="SideBarMenu_ItemInvoked">
+        <NavigationView.MenuItems>
+            <NavigationViewItem Icon="Bullets" Content="To Do" Tag="ToDoTasks"/>
+            <NavigationViewItem Icon="Accept" Content="Done" Tag="CompletedTasks"/>
+        </NavigationView.MenuItems>
+        <Frame x:Name="ContentFrame"/>
+    </NavigationView>
+
 </Window>

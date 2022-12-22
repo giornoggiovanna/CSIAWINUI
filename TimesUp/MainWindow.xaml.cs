@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,17 +10,13 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using TimesUp.Pages;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using Windows.UI.ApplicationSettings;
 
 namespace TimesUp
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainWindow : Window
     {
         public MainWindow()
@@ -31,9 +24,30 @@ namespace TimesUp
             this.InitializeComponent();
         }
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+        private void SideBarMenu_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            myButton.Content = "Clicked";
+            if (args.IsSettingsInvoked == false)
+            {
+                // find NavigationViewItem with Content that equals InvokedItem
+                var item = sender.MenuItems.OfType<NavigationViewItem>().First(x => (string)x.Content == (string)args.InvokedItem);
+                DoNavigate(sender, item);
+            }
+
+        }
+
+        private void DoNavigate(NavigationView navigationView, NavigationViewItem item)
+        {
+            switch (item.Tag)
+            {
+                case "ToDoTasks":
+                    navigationView.Header = item.Content;
+                    ContentFrame.Navigate(typeof(ToDoTasksPage));
+                    break;
+                case "CompletedTasks":
+                    navigationView.Header = item.Content;
+                    ContentFrame.Navigate(typeof(CompletedTasksPage));
+                    break;
+            }
         }
     }
 }
