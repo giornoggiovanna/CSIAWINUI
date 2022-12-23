@@ -1,6 +1,3 @@
-<!-- Copyright (c) Microsoft Corporation and Contributors. -->
-<!-- Licensed under the MIT License. -->
-
 <Page
     x:Class="TimesUp.Pages.CompletedTasksPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -11,6 +8,38 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-    </Grid>
+    <Page.Resources>
+        <DataTemplate x:Key ="TaskListTemplate" x:DataType="local:TaskItem">
+            <StackPanel Margin="20">
+                <TextBlock Text="{x:Bind Name }" KeyTipHorizontalOffset="10"/>
+                <TextBlock Text=""/>
+                <TextBlock Text="{x:Bind Description}" KeyTipHorizontalOffset="10"/>
+                <TextBlock Text=""/>
+                <TextBlock Text="Due on:"/>
+                <TextBlock Text="{x:Bind DueDate}"/>
+                <TextBlock Text=""/>
+                <TextBlock Text="Estimated Effort"/>
+                <TextBlock Text="{x:Bind ExpectedEffort}"/> 
+                <TextBlock Text=""/>
+                <TextBlock Text="Actual Effort"/>
+                <TextBlock Text="{x:Bind ActualEffort}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <StackPanel>
+        <GridView
+            x:Name="ListGridView"
+            ItemTemplate="{StaticResource TaskListTemplate}"
+            IsItemClickEnabled="False"
+            ItemClick="ListGridView_ItemClick"
+            SelectionMode="Single"
+            />
+    </StackPanel> 
+
+        
+
+
+
+
 </Page>
