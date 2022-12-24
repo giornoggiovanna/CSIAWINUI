@@ -1,4 +1,3 @@
-
 <Page
     x:Class="TimesUp.Pages.ToDoTasksPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -9,8 +8,74 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+
+    <Page.Resources>
+        <Style TargetType="StackPanel" x:Key="CardStyle">
+            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Width" Value="350"/>
+            <Setter Property="Height" Value="250"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TitleStyle">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Margin" Value="0, 0, 0, 10"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="DescriptionStyle">
+            <Setter Property="Height" Value="105"/>
+            <Setter Property="Margin" Value="0, 5, 0, 5"/>
+        </Style>
+        <Style TargetType="RelativePanel" x:Key="TaskDetailsContainerStyle">
+            <Setter Property="Margin" Value="0, 5, 0, 5"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TaskDetailsTextStyle">
+            <Setter Property="Padding" Value="0, 0, 4, 0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="FontWeight" Value="Light"/>
+        </Style>
+
+        <DataTemplate x:Key ="TaskListTemplate" x:DataType="local:TaskItem">
+            <StackPanel Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="{x:Bind Name }" Style="{StaticResource TitleStyle}"/>
+                    <TextBlock Text="{x:Bind Description}" Style="{StaticResource DescriptionStyle}"/>
+                </StackPanel>
+                <RelativePanel Style="{StaticResource TaskDetailsContainerStyle}">
+                    <StackPanel Orientation="Horizontal" RelativePanel.AlignLeftWithPanel="True" >
+                        <TextBlock Text="Estimated Effort:" Style="{StaticResource TaskDetailsTextStyle}"/>
+                        <TextBlock Text="{x:Bind ExpectedEffort}" Style="{StaticResource TaskDetailsTextStyle}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" RelativePanel.AlignRightWithPanel="True">
+                        <TextBlock Text="Current Effort:" Style="{StaticResource TaskDetailsTextStyle}"/>
+                        <TextBlock Text="{x:Bind CurrentEffort}" Style="{StaticResource TaskDetailsTextStyle}"/>
+                    </StackPanel>
+                </RelativePanel>
+                <RelativePanel Style="{StaticResource TaskDetailsContainerStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Remaining Effort:" Style="{StaticResource TaskDetailsTextStyle}"/>
+                        <TextBlock Text="{x:Bind RemainingEffort}" Style="{StaticResource TaskDetailsTextStyle}"/>
+                    </StackPanel>
+                </RelativePanel>
+            </StackPanel>
+        </DataTemplate>
+        
+    </Page.Resources>
+
     <ScrollViewer>
-        <Grid>
-        </Grid>
+        <StackPanel>
+            <Button HorizontalAlignment="Right" VerticalAlignment="Top" Name="NewTaskButton" Click="NewTaskButton_Click">CLick to add new task</Button>
+            <GridView
+                x:Name="ToDoListGridview"
+                ItemTemplate="{StaticResource TaskListTemplate}"
+                IsItemClickEnabled="False"
+                ItemClick="ToDoListGridview_ItemClick"
+                SelectionMode="Single"
+                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+            />
+        </StackPanel>
     </ScrollViewer>
+    
 </Page>
