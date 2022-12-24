@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <DataTemplate x:Key ="TaskListTemplate" x:DataType="local:TaskItem">
+        <DataTemplate x:Key ="CompletedTaskListTemplate" x:DataType="local:CompletedTaskItem">
             <StackPanel Margin="20">
                 <TextBlock Text="{x:Bind Name }" KeyTipHorizontalOffset="10"/>
                 <TextBlock Text=""/>
@@ -30,7 +30,7 @@
     <StackPanel>
         <GridView
             x:Name="ListGridView"
-            ItemTemplate="{StaticResource TaskListTemplate}"
+            ItemTemplate="{StaticResource CompletedTaskListTemplate}"
             IsItemClickEnabled="False"
             ItemClick="ListGridView_ItemClick"
             SelectionMode="Single"

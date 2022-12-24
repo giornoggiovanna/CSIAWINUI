@@ -22,8 +22,8 @@ namespace TimesUp.Pages
         {
             this.InitializeComponent();
 
-            var tempList = TaskItem.GetItems();
-            ObservableCollection<TaskItem> tasks = new ObservableCollection<TaskItem>(tempList);
+            var tempList = CompletedTaskItem.GetItems();
+            ObservableCollection<CompletedTaskItem> tasks = new ObservableCollection<CompletedTaskItem>(tempList);
             ListGridView.ItemsSource= tasks;
         }
 
@@ -35,7 +35,7 @@ namespace TimesUp.Pages
         
     }
 
-    public class TaskItem
+    public class CompletedTaskItem
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -43,7 +43,7 @@ namespace TimesUp.Pages
         public int ExpectedEffort { get; set; }
         public int ActualEffort { get; set; }
 
-        public static List<TaskItem> GetItems()
+        public static List<CompletedTaskItem> GetItems()
         {
 
             string[] nameDummyTexts = new[]
@@ -68,8 +68,8 @@ namespace TimesUp.Pages
             Random random = new Random();
             int dummyEstimatedEffort = random.Next(0, 50);  
 
-            List<TaskItem> objects = new List<TaskItem>();
-            objects.Add(new TaskItem()
+            List<CompletedTaskItem> objects = new List<CompletedTaskItem>();
+            objects.Add(new CompletedTaskItem()
             {
                 Name = nameDummyTexts[random.Next(0, 3)],
                 Description = descriptionDummyTexts[random.Next(0, 3)],
