@@ -1,4 +1,5 @@
 using Microsoft.UI.Xaml.Controls;
+using TimesUp.ViewModels;
 
 namespace TimesUp.Pages
 {
@@ -7,6 +8,10 @@ namespace TimesUp.Pages
         public AddTaskDialog()
         {
             this.InitializeComponent();
+
+            ViewModel = new AddTaskViewModel();
         }
+
+        public AddTaskViewModel ViewModel { get; }
     }
 }

@@ -9,9 +9,12 @@
     DefaultButton="Primary"
     >
     <StackPanel>
-        <TextBox Margin="0 5" Header="Task Name" PlaceholderText="Short name for your task"  />
-        <TextBox Margin="0 5" Header="Task Description" PlaceholderText="Additional details about the task" AcceptsReturn="True" Height="200"  />
-        <CalendarDatePicker Margin="0 5" Header="Task Due Date" />
+        <TextBox Margin="0 5" Header="Task Name" PlaceholderText="Short name for your task" 
+                 Text="{x:Bind ViewModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox Margin="0 5" Header="Task Description" PlaceholderText="Additional details about the task" AcceptsReturn="True" Height="200"
+                 Text="{x:Bind ViewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <CalendarDatePicker Margin="0 5" Header="Task Due Date" 
+                Date="{x:Bind ViewModel.DueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Grid RowDefinitions="Auto, Auto" Margin="0 5">
             <TextBlock Grid.Row="0">Estimated Effort</TextBlock>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Padding="0 5">
