@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace TimesUp.ViewModels
@@ -8,7 +7,7 @@ namespace TimesUp.ViewModels
     {
         private string _name = string.Empty;
 
-        [MinLength(2, ErrorMessage = "Name must be at least 2 characters.")]
+        [Required(ErrorMessage = "Name is required")]
         [MaxLength(100, ErrorMessage = "Name must be 100 characters or less.")]
         public string Name
         {
@@ -40,23 +39,5 @@ namespace TimesUp.ViewModels
                 SetValue(ref _dueDate, value);
             }
         }
-
-        //public string Error => null!;
-
-        //public string this[string columnName]
-        //{
-        //    get
-        //    {
-        //        if (columnName == "Name")
-        //        {
-        //            // Validate property and return a string if there is an error
-        //            if (string.IsNullOrEmpty(Name))
-        //                return "Name is Required";
-        //        }
-
-        //        // If there's no error, null gets returned
-        //        return null!;
-        //    }
-        //}
     }
 }

@@ -3,26 +3,43 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:TimesUp.Pages"
+    xmlns:validation="using:WinUIValidation"
     Title="Add Task"
     PrimaryButtonText="Save"
     CloseButtonText="Cancel"
     DefaultButton="Primary"
     >
-    <StackPanel>
-        <TextBox Margin="0 5" Header="Task Name" PlaceholderText="Short name for your task" 
+    <validation:Form Model="{x:Bind ViewModel}">
+
+        <StackPanel>
+            <StackPanel.Resources>
+                <Style TargetType="validation:ValidationFor">
+                    <Setter Property="Margin" Value="0,0,0,20" />
+                </Style>
+            </StackPanel.Resources>
+
+            <TextBox Margin="0 5" Header="Task Name" PlaceholderText="Short name for your task" 
                  Text="{x:Bind ViewModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBox Margin="0 5" Header="Task Description" PlaceholderText="Additional details about the task" AcceptsReturn="True" Height="200"
+            <validation:ValidationFor PropertyName="Name" />
+            
+            <TextBox Margin="0 5" Header="Task Description" PlaceholderText="Additional details about the task" AcceptsReturn="True" Height="200"
                  Text="{x:Bind ViewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <CalendarDatePicker Margin="0 5" Header="Task Due Date" 
+            <validation:ValidationFor PropertyName="Description" />
+            
+            <CalendarDatePicker Margin="0 5" Header="Task Due Date" 
                 Date="{x:Bind ViewModel.DueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <Grid RowDefinitions="Auto, Auto" Margin="0 5">
-            <TextBlock Grid.Row="0">Estimated Effort</TextBlock>
-            <StackPanel Grid.Row="1" Orientation="Horizontal" Padding="0 5">
-                <NumberBox />
-                <TextBlock VerticalAlignment="Center" Margin="5, 0">hrs</TextBlock>
-                <NumberBox />
-                <TextBlock VerticalAlignment="Center" Margin="5, 0">mins</TextBlock>
-            </StackPanel>
-        </Grid>
-    </StackPanel>
+            <validation:ValidationFor PropertyName="DueDate" />
+            
+            <Grid RowDefinitions="Auto, Auto" Margin="0 5">
+                <TextBlock Grid.Row="0">Estimated Effort</TextBlock>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Padding="0 5">
+                    <NumberBox />
+                    <TextBlock VerticalAlignment="Center" Margin="5, 0">hrs</TextBlock>
+                    <NumberBox />
+                    <TextBlock VerticalAlignment="Center" Margin="5, 0">mins</TextBlock>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        
+    </validation:Form>
 </ContentDialog>
