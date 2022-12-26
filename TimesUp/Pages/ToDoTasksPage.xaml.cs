@@ -1,19 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Windows.UI.StartScreen;
 
 namespace TimesUp.Pages
 {
@@ -24,7 +13,7 @@ namespace TimesUp.Pages
         public ToDoTasksPage()
         {
             this.InitializeComponent();
-            
+
         }
 
         private void ToDoListGridview_ItemClick(object sender, ItemClickEventArgs e)
@@ -32,18 +21,20 @@ namespace TimesUp.Pages
 
         }
 
-        private void NewTaskButton_Click(object sender, RoutedEventArgs e)
+        private async void NewTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            CreateNewTask();   
+            var dialog = new AddTaskDialog();
+            dialog.XamlRoot = this.XamlRoot;
+
+            var result = await dialog.ShowAsync();
         }
 
         private void CreateNewTask()
         {
-
             Random random = new();
             var tempList = TaskItem.GetItems();
             ObservableCollection<TaskItem> tempTaskItem = new(tempList);
-            tasks.Add(new TaskItem() { Name = "slakfsef", Description = @"sfjlesajfe", DueDate= DateTime.Now, ExpectedEffort = random.Next(0, 50), CurrentEffort = random.Next(0, 50), RemainingEffort = random.Next(0, 49)});    
+            tasks.Add(new TaskItem() { Name = "slakfsef", Description = @"sfjlesajfe", DueDate = DateTime.Now, ExpectedEffort = random.Next(0, 50), CurrentEffort = random.Next(0, 50), RemainingEffort = random.Next(0, 49) });
 
             ToDoListGridview.ItemsSource = tasks;
         }

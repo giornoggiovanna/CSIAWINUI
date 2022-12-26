@@ -1,0 +1,25 @@
+<ContentDialog
+    x:Class="TimesUp.Pages.AddTaskDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TimesUp.Pages"
+    Title="Add Task"
+    PrimaryButtonText="Save"
+    CloseButtonText="Cancel"
+    DefaultButton="Primary"
+    >
+    <StackPanel>
+        <TextBox Margin="0 5" Header="Task Name" PlaceholderText="Short name for your task"  />
+        <TextBox Margin="0 5" Header="Task Description" PlaceholderText="Additional details about the task" AcceptsReturn="True" Height="200"  />
+        <CalendarDatePicker Margin="0 5" Header="Task Due Date" />
+        <Grid RowDefinitions="Auto, Auto" Margin="0 5">
+            <TextBlock Grid.Row="0">Estimated Effort</TextBlock>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Padding="0 5">
+                <NumberBox />
+                <TextBlock VerticalAlignment="Center" Margin="5, 0">hrs</TextBlock>
+                <NumberBox />
+                <TextBlock VerticalAlignment="Center" Margin="5, 0">mins</TextBlock>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</ContentDialog>

@@ -12,7 +12,7 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Pages\AddTaskPage.xaml" />
+    <None Remove="Pages\AddTaskDialog.xaml" />
     <None Remove="Pages\CompletedTasksPage.xaml" />
     <None Remove="Pages\ToDoTasksPage.xaml" />
   </ItemGroup>
@@ -42,7 +42,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\AddTaskPage.xaml">
+    <Page Update="Pages\AddTaskDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
