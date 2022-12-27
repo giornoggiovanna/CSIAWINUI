@@ -21,9 +21,9 @@
         <Grid RowDefinitions="Auto, Auto" Margin="0 5">
             <TextBlock Grid.Row="0">Estimated Effort</TextBlock>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Padding="0 5">
-                <NumberBox />
+                <NumberBox Text="{x:Bind ViewModel.ExpectedEffortHours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock VerticalAlignment="Center" Margin="5, 0">hrs</TextBlock>
-                <NumberBox />
+                <NumberBox Text="{x:Bind ViewModel.ExpectedEffortMinutes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock VerticalAlignment="Center" Margin="5, 0">mins</TextBlock>
             </StackPanel>
         </Grid>

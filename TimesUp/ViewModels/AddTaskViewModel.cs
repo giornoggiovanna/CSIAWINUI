@@ -42,7 +42,7 @@ namespace TimesUp.ViewModels
         }
 
         private DateTimeOffset _dueDate = DateTime.Now.AddDays(1);
-
+        
         public DateTimeOffset DueDate { 
             get => _dueDate;
             set
@@ -52,7 +52,42 @@ namespace TimesUp.ViewModels
             }
         }
 
+        private int _expectedEffort;
+        
+        public int ExpectedEffort { 
+            get => (((_expectedEffortHours * 60) * 60) * 1000) + ((_expectedEffortMinutes * 60) * 1000);
+            set 
+            { 
+                SetValue(ref _expectedEffort, value);
+            } 
+        }
+
+        private int _expectedEffortHours = 0;
+
+        public int ExpectedEffortHours {
+            get => _expectedEffortHours;
+            set
+            {
+                SetValue(ref _expectedEffortHours, value);
+                AddCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private int _expectedEffortMinutes = 0;
+
+        public int ExpectedEffortMinutes
+        {
+            get => _expectedEffortMinutes;
+
+            set
+            {
+                SetValue(ref _expectedEffortMinutes, value);
+                AddCommand.RaiseCanExecuteChanged();
+            }
+        }
+
         public DelegateCommand AddCommand { get; }
+        public ToDoTasksPage ToDoTasksPage { get; }
 
         private bool CanAddTask(object? arg)
         {
@@ -62,7 +97,11 @@ namespace TimesUp.ViewModels
 
         private void AddTask(object? obj)
         {
-            throw new NotImplementedException();
+            //ToDoTasksPage toDoTasksPage = new();
+
+            //tasks.Add(new TaskItem() { TName = Name, TDescription = Description, TDueDate = DueDate, TExpectedEffort = ExpectedEffort , TCurrentEffort = 0, TRemainingEffort = ExpectedEffort - 0 });
+
+            //toDoTasksPage.ToDoListGridview.ItemsSource = tasks;
         }
 
         public void CloseDialog(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -85,6 +124,9 @@ namespace TimesUp.ViewModels
 
             RuleFor(task => task.DueDate)
                 .GreaterThan(DateTime.Now);
+
+            RuleFor(task => task.ExpectedEffort)
+                .NotEmpty();
         }
     }
 }

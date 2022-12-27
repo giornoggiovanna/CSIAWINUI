@@ -2,7 +2,7 @@
     x:Class="TimesUp.Pages.ToDoTasksPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:TimesUp.Pages"
+    xmlns:vm="using:TimesUp.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -37,7 +37,7 @@
             <Setter Property="FontWeight" Value="Light"/>
         </Style>
 
-        <DataTemplate x:Key ="TaskListTemplate" x:DataType="local:TaskItem">
+        <DataTemplate x:Key ="TaskListTemplate" x:DataType="vm:ToDoItemViewModel">
             <StackPanel Style="{StaticResource CardStyle}">
                 <StackPanel>
                     <TextBlock Text="{x:Bind Name }" Style="{StaticResource TitleStyle}"/>
@@ -71,10 +71,10 @@
                 x:Name="ToDoListGridview"
                 ItemTemplate="{StaticResource TaskListTemplate}"
                 IsItemClickEnabled="False"
-                ItemClick="ToDoListGridview_ItemClick"
                 SelectionMode="Single"
                 ScrollViewer.HorizontalScrollBarVisibility="Visible"
-            />
+                ItemsSource="{x:Bind ViewModel.Tasks}"            
+                />
         </StackPanel>
     </ScrollViewer>
 
