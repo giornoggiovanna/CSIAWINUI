@@ -9,7 +9,7 @@ namespace TimesUp.Pages
         {
             this.InitializeComponent();
 
-            ViewModel = new AddTaskViewModel();
+            ViewModel = new AddTaskViewModel(this);
         }
 
         public AddTaskViewModel ViewModel { get; }
