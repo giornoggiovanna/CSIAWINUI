@@ -32,6 +32,8 @@ namespace TimesUp.Pages
         {
             var grid = (GridView)sender;
             var selectedTask = (ToDoTaskItemViewModel)grid.SelectedItem;
+
+            Frame.Navigate(typeof(TaskDetailPage), selectedTask.Id);
         }
     }
 }

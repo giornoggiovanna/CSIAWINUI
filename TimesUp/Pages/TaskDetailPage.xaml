@@ -9,6 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock>Hello</TextBlock> 
+        <TextBlock Text="{x:Bind ViewModel.Name}" />
+        <TextBlock Text="{x:Bind ViewModel.Description}" />
     </Grid>
 </Page>

@@ -1,19 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
+using System.Linq;
 using TimesUp.Pages;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.ApplicationSettings;
 
 namespace TimesUp
 {
@@ -24,7 +12,7 @@ namespace TimesUp
             this.InitializeComponent();
         }
 
-        private void SideBarMenu_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        private void MainNavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             if (args.IsSettingsInvoked == false)
             {
@@ -32,7 +20,6 @@ namespace TimesUp
                 var item = sender.MenuItems.OfType<NavigationViewItem>().First(x => (string)x.Content == (string)args.InvokedItem);
                 DoNavigate(sender, item);
             }
-
         }
 
         private void DoNavigate(NavigationView navigationView, NavigationViewItem item)

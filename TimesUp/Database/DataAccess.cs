@@ -102,5 +102,42 @@ namespace TimesUp.Database
                 return tasks;
             }
         }
+
+        public static Task GetTask(Guid taskId)
+        {
+            var dbPath = GetDatabasePath();
+
+            using (var db = new SqliteConnection($"Filename={dbPath}"))
+            {
+                db.Open();
+
+                var selectCommand = new SqliteCommand();
+                selectCommand.Connection = db;
+
+                selectCommand.CommandText = "select TaskId, TaskName, TaskDescription, TaskDueDate, TaskExpectedEffort, TaskCurrentEffort from Tasks where TaskId = @taskId;";
+                selectCommand.Parameters.AddWithValue("@taskId", taskId);
+
+                var query = selectCommand.ExecuteReader();
+
+                if(query.Read())
+                {
+                    var task = new Task
+                    {
+                        Id = query.GetGuid(0),
+                        Name = query.GetString(1),
+                        Description = query.GetString(2),
+                        DueDate = DateOnly.FromDateTime(query.GetDateTime(3)),
+                        ExpectedEffort = query.GetInt32(4),
+                        CurrentEffort = query.GetInt32(5)
+                    };
+
+                    return task;
+                }
+                else
+                {
+                    throw new Exception("Can't find task!!");
+                }
+            }
+        }
     }
 }

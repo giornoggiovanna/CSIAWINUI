@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <NavigationView x:Name="SideBar" PaneDisplayMode="Left" ItemInvoked="SideBarMenu_ItemInvoked">
+    <NavigationView x:Name="MainNavigationView" PaneDisplayMode="Left" ItemInvoked="MainNavigationView_ItemInvoked">
         <NavigationView.MenuItems>
             <NavigationViewItem Icon="Bullets" Content="To Do" Tag="ToDoTasks"/>
             <NavigationViewItem Icon="Accept" Content="Done" Tag="CompletedTasks"/>
