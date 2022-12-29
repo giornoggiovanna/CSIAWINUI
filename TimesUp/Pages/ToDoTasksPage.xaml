@@ -8,8 +8,11 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-
     <Page.Resources>
+        <Style TargetType="GridViewItem" x:Key="GridViewItemStyle">
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+
         <Style TargetType="StackPanel" x:Key="CardStyle">
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -73,7 +76,10 @@
                 IsItemClickEnabled="False"
                 SelectionMode="Single"
                 ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                ItemsSource="{x:Bind ViewModel.Tasks}"            
+                ItemsSource="{x:Bind ViewModel.Tasks}"
+                ItemClick="ToDoListGridview_ItemClick"
+                SelectionChanged="ToDoListGridview_SelectionChanged"
+                Style="{StaticResource GridViewItemStyle }"
                 />
         </StackPanel>
     </ScrollViewer>

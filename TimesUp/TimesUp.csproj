@@ -17,6 +17,7 @@
   <ItemGroup>
     <None Remove="Pages\AddTaskDialog.xaml" />
     <None Remove="Pages\CompletedTasksPage.xaml" />
+    <None Remove="Pages\TaskDetailPage.xaml" />
     <None Remove="Pages\ToDoTasksPage.xaml" />
   </ItemGroup>
 
@@ -46,6 +47,11 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\TaskDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\AddTaskDialog.xaml">

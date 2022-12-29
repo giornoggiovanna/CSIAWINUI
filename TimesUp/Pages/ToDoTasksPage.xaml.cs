@@ -11,10 +11,10 @@ namespace TimesUp.Pages
         {
             this.InitializeComponent();
 
-            ViewModel = new ToDoViewModel();
+            ViewModel = new ToDoTasksViewModel();
         }
 
-        public ToDoViewModel ViewModel { get; }
+        public ToDoTasksViewModel ViewModel { get; }
         
         private async void NewTaskButton_Click(object sender, RoutedEventArgs e)
         {
@@ -26,6 +26,12 @@ namespace TimesUp.Pages
             await dialog.ShowAsync();
 
             ViewModel.LoadTasks();
+        }
+
+        private void ToDoListGridview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var grid = (GridView)sender;
+            var selectedTask = (ToDoTaskItemViewModel)grid.SelectedItem;
         }
     }
 }
