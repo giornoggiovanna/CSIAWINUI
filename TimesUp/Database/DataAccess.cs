@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
 
@@ -14,7 +15,7 @@ namespace TimesUp.Database
             SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
 
             await ApplicationData.Current.LocalFolder.CreateFileAsync(DatabaseName, CreationCollisionOption.OpenIfExists);
-            string dbPath = GetDatabasePath();
+            var dbPath = GetDatabasePath();
 
             using (var db = new SqliteConnection($"Filename={dbPath}"))
             {
@@ -45,7 +46,8 @@ namespace TimesUp.Database
 
         public static void AddTask(Task task) 
         {
-            string dbPath = GetDatabasePath();
+            var dbPath = GetDatabasePath();
+
             using (var db = new SqliteConnection($"Filename={dbPath}"))
             {
                 db.Open();
@@ -61,9 +63,44 @@ namespace TimesUp.Database
                 insertCommand.Parameters.AddWithValue("@taskExpectedEffort", task.ExpectedEffort);
                 insertCommand.Parameters.AddWithValue("@taskCurrentEffort", task.CurrentEffort);
             
-                insertCommand.ExecuteReader();
+                insertCommand.ExecuteNonQuery();
             }  
         }
 
+        public static List<Task> GetToDoTasks()
+        {
+            var dbPath = GetDatabasePath();
+
+            using (var db = new SqliteConnection($"Filename={dbPath}"))
+            {
+                db.Open();
+
+                var selectCommand = new SqliteCommand();
+                selectCommand.Connection = db;
+
+                selectCommand.CommandText = "select TaskId, TaskName, TaskDescription, TaskDueDate, TaskExpectedEffort, TaskCurrentEffort from Tasks;";
+
+                var query = selectCommand.ExecuteReader();
+
+                var tasks = new List<Task>();
+
+                while (query.Read())
+                {
+                    var task = new Task
+                    {
+                        Id = query.GetGuid(0),
+                        Name = query.GetString(1),
+                        Description = query.GetString(2),
+                        DueDate = DateOnly.FromDateTime(query.GetDateTime(3)),
+                        ExpectedEffort = query.GetInt32(4),
+                        CurrentEffort = query.GetInt32(5)
+                    };
+
+                    tasks.Add(task);
+                }
+
+                return tasks;
+            }
+        }
     }
 }

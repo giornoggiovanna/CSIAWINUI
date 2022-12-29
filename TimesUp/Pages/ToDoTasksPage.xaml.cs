@@ -18,11 +18,14 @@ namespace TimesUp.Pages
         
         private async void NewTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new AddTaskDialog();
-            dialog.XamlRoot = this.XamlRoot;
+            var dialog = new AddTaskDialog
+            {
+                XamlRoot = this.XamlRoot
+            };
 
-            var result = await dialog.ShowAsync();
+            await dialog.ShowAsync();
+
+            ViewModel.LoadTasks();
         }
-
     }
 }

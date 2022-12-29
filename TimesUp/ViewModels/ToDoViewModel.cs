@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
-using TimesUp.Pages;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using TimesUp.Database;
 
 namespace TimesUp.ViewModels
 {
@@ -11,10 +9,25 @@ namespace TimesUp.ViewModels
 
         public ToDoViewModel()
         {
-            Tasks.Add(new ToDoItemViewModel { Name = "slajfjslef", Description = "sjlfjaldf", ExpectedEffort = 50, CurrentEffort = 20 });
-            Tasks.Add(new ToDoItemViewModel { Name = "slajfjslef", Description = "sjlfjaldf", ExpectedEffort = 60, CurrentEffort = 20 });
-            Tasks.Add(new ToDoItemViewModel { Name = "slajfjslef", Description = "sjlfjaldf", ExpectedEffort = 50, CurrentEffort = 30 });
-            Tasks.Add(new ToDoItemViewModel { Name = "slajfjslef", Description = "sjlfjaldf", ExpectedEffort = 10, CurrentEffort = 10 });
+            LoadTasks();
+        }
+
+        public void LoadTasks()
+        {
+            var dbTasks = DataAccess.GetToDoTasks();
+
+            Tasks.Clear();
+
+            foreach (var dbTask in dbTasks)
+            {
+                Tasks.Add(new ToDoItemViewModel
+                {
+                    Name = dbTask.Name,
+                    Description = dbTask.Description,
+                    CurrentEffort = dbTask.CurrentEffort,
+                    ExpectedEffort = dbTask.ExpectedEffort
+                });
+            }
         }
     }
 
