@@ -12,6 +12,7 @@
     <EnableMsixTooling>true</EnableMsixTooling>
 	<Nullable>enable</Nullable>
 	<UseWPF>False</UseWPF>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Pages\AddTaskDialog.xaml" />
@@ -31,8 +32,10 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.4.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.3" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using System;
 using TimesUp.Commands;
+using TimesUp.Database;
 using TimesUp.Pages;
 
 namespace TimesUp.ViewModels
@@ -41,9 +42,9 @@ namespace TimesUp.ViewModels
             }
         }
 
-        private DateTimeOffset _dueDate = DateTime.Now.AddDays(1);
+        private DateTimeOffset? _dueDate = DateTime.Now.AddDays(1);
         
-        public DateTimeOffset DueDate { 
+        public DateTimeOffset? DueDate { 
             get => _dueDate;
             set
             {
@@ -51,15 +52,9 @@ namespace TimesUp.ViewModels
                 AddCommand.RaiseCanExecuteChanged();
             }
         }
-
-        private int _expectedEffort;
         
         public int ExpectedEffort { 
-            get => (((_expectedEffortHours * 60) * 60) * 1000) + ((_expectedEffortMinutes * 60) * 1000);
-            set 
-            { 
-                SetValue(ref _expectedEffort, value);
-            } 
+            get => (_expectedEffortHours * 60) + _expectedEffortMinutes;
         }
 
         private int _expectedEffortHours = 0;
@@ -97,22 +92,30 @@ namespace TimesUp.ViewModels
 
         private void AddTask(object? obj)
         {
-            //ToDoTasksPage toDoTasksPage = new();
+            var newTask = new Task
+            {
+                Id = Guid.NewGuid(),
+                Name = Name,
+                Description = Description,
+                DueDate = DateOnly.FromDateTime(DueDate!.Value.Date),
+                ExpectedEffort = ExpectedEffort
+            };
 
-            //tasks.Add(new TaskItem() { TName = Name, TDescription = Description, TDueDate = DueDate, TExpectedEffort = ExpectedEffort , TCurrentEffort = 0, TRemainingEffort = ExpectedEffort - 0 });
+            DataAccess.AddTask(newTask);
 
-            //toDoTasksPage.ToDoListGridview.ItemsSource = tasks;
+            AddTaskDialog.Hide();
         }
 
         public void CloseDialog(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             AddTaskDialog.Hide();
         }
-
     }
 
     public class AddTaskValidator : AbstractValidator<AddTaskViewModel>
     {
+        private const int MaximumExpectedEffort = 100 * 60; //100 hrs * 60 mins;
+
         public AddTaskValidator() 
         {
             RuleFor(task => task.Name)
@@ -123,9 +126,12 @@ namespace TimesUp.ViewModels
                 .MaximumLength(500);
 
             RuleFor(task => task.DueDate)
+                .NotEmpty()
                 .GreaterThan(DateTime.Now);
 
             RuleFor(task => task.ExpectedEffort)
+                .GreaterThan(0)
+                .LessThan(MaximumExpectedEffort)
                 .NotEmpty();
         }
     }
