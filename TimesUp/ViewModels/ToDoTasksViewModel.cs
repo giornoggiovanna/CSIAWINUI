@@ -27,7 +27,8 @@ namespace TimesUp.ViewModels
                     Name = dbTask.Name,
                     Description = dbTask.Description,
                     CurrentEffort = dbTask.CurrentEffort,
-                    ExpectedEffort = dbTask.ExpectedEffort
+                    ExpectedEffort = dbTask.ExpectedEffort,
+                    DueDate = dbTask.DueDate
                 });
             }
         }
@@ -41,5 +42,6 @@ namespace TimesUp.ViewModels
         public int ExpectedEffort { get; set; }
         public int CurrentEffort { get; set; }
         public int RemainingEffort { get => ExpectedEffort - CurrentEffort; }
+        public DateOnly DueDate { get; set; }
     }
 }

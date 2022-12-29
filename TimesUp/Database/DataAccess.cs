@@ -29,7 +29,8 @@ namespace TimesUp.Database
                         TaskDescription nvarchar(500) not null,
                         TaskDueDate date not null,
                         TaskExpectedEffort int not null,
-                        TaskCurrentEffort int not null
+                        TaskCurrentEffort int not null,
+                        TaskCompletedDate date
                     )
                 """;
 
@@ -78,7 +79,7 @@ namespace TimesUp.Database
                 var selectCommand = new SqliteCommand();
                 selectCommand.Connection = db;
 
-                selectCommand.CommandText = "select TaskId, TaskName, TaskDescription, TaskDueDate, TaskExpectedEffort, TaskCurrentEffort from Tasks;";
+                selectCommand.CommandText = "select TaskId, TaskName, TaskDescription, TaskDueDate, TaskExpectedEffort, TaskCurrentEffort from Tasks where TaskCompletedDate is null;";
 
                 var query = selectCommand.ExecuteReader();
 
@@ -138,6 +139,45 @@ namespace TimesUp.Database
                     throw new Exception("Can't find task!!");
                 }
             }
+        }
+
+        public static List<Task> GetCompletedTasks ()
+        {
+            var dbPath = GetDatabasePath();
+
+            using (var db = new SqliteConnection($"Filename={dbPath}"))
+            {
+                db.Open();
+
+                var selectCommand = new SqliteCommand();
+                selectCommand.Connection = db;
+
+                selectCommand.CommandText = "select TaskId, TaskName, TaskDescription, TaskDueDate, TaskExpectedEffort, TaskCurrentEffort from Tasks where TaskCompletedDate is not null;";
+
+                var query = selectCommand.ExecuteReader();
+
+                var completedTasks = new List<Task>();
+
+                while (query.Read())
+                {
+                    var task = new Task
+                    {
+                        Id = query.GetGuid(0),
+                        Name = query.GetString(1),
+                        Description = query.GetString(2),
+                        DueDate = DateOnly.FromDateTime(query.GetDateTime(3)),
+                        ExpectedEffort = query.GetInt32(4),
+                        CurrentEffort = query.GetInt32(5),
+                        CompletedDate = query.GetDateTime(6)
+                    };
+
+                    completedTasks.Add(task);
+                }
+
+                return completedTasks;
+            }
+
+
         }
     }
 }

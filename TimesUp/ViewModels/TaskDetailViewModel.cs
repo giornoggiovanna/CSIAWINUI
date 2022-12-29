@@ -15,7 +15,9 @@ namespace TimesUp.ViewModels
 
         public int ExpectedEffort { get; private set; }
 
-        public DateTimeOffset? DueDate { get; private set; }
+        public DateOnly? DueDate { get; private set; }
+
+        public DateTimeOffset? CompletedDate { get; private set; } 
 
         public void LoadTask(Guid id)
         {
@@ -26,6 +28,8 @@ namespace TimesUp.ViewModels
             Description = dbTask.Description;
             CurrentEffort = dbTask.CurrentEffort;
             ExpectedEffort = dbTask.ExpectedEffort;
+            DueDate = dbTask.DueDate;
+            
         }
     }
 }

@@ -5,37 +5,88 @@
     xmlns:local="using:TimesUp.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:TimesUp.ViewModels"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <DataTemplate x:Key ="CompletedTaskListTemplate" x:DataType="local:CompletedTaskItem">
-            <StackPanel Margin="20">
-                <TextBlock Text="{x:Bind Name }" KeyTipHorizontalOffset="10"/>
-                <TextBlock Text=""/>
-                <TextBlock Text="{x:Bind Description}" KeyTipHorizontalOffset="10"/>
-                <TextBlock Text=""/>
-                <TextBlock Text="Due on:"/>
-                <TextBlock Text="{x:Bind DueDate}"/>
-                <TextBlock Text=""/>
-                <TextBlock Text="Estimated Effort"/>
-                <TextBlock Text="{x:Bind ExpectedEffort}"/> 
-                <TextBlock Text=""/>
-                <TextBlock Text="Actual Effort"/>
-                <TextBlock Text="{x:Bind ActualEffort}"/>
+        <Style TargetType="GridViewItem" x:Key="GridViewItemStyle">
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+
+        <Style TargetType="StackPanel" x:Key="CardStyle">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Width" Value="350"/>
+            <Setter Property="Height" Value="250"/>
+            <Setter Property="Background" Value="{ ThemeResource SystemControlBackgroundChromeWhiteBrush}" />
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TitleStyle">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Margin" Value="0, 0, 0, 10"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="DescriptionStyle">
+            <Setter Property="Height" Value="105"/>
+            <Setter Property="Margin" Value="0, 5, 0, 5"/>
+        </Style>
+        <Style TargetType="RelativePanel" x:Key="TaskDetailsContainerStyle">
+            <Setter Property="Margin" Value="0, 5, 0, 5"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TaskDetailsTextStyle">
+            <Setter Property="Padding" Value="0, 0, 4, 0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="FontWeight" Value="Light"/>
+        </Style>
+
+        <DataTemplate x:Key ="CompletedTaskListTemplate" x:DataType="vm:CompletedTaskItemViewModel">
+            <StackPanel Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="{x:Bind Name }" Style="{StaticResource TitleStyle}"/>
+                    <TextBlock Text="{x:Bind Description}" Style="{StaticResource DescriptionStyle}"/>
+                </StackPanel>
+                <RelativePanel Style="{StaticResource TaskDetailsContainerStyle}">
+                    <StackPanel Orientation="Horizontal" RelativePanel.AlignLeftWithPanel="True" >
+                        <TextBlock Text="Estimated Effort:" Style="{StaticResource TaskDetailsTextStyle}"/>
+                        <TextBlock Text="{x:Bind ExpectedEffort}" Style="{StaticResource TaskDetailsTextStyle}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" RelativePanel.AlignRightWithPanel="True">
+                        <TextBlock Text="Current Effort:" Style="{StaticResource TaskDetailsTextStyle}"/>
+                        <TextBlock Text="{x:Bind ActualEffort}" Style="{StaticResource TaskDetailsTextStyle}"/>
+                    </StackPanel>
+                </RelativePanel>
+                <RelativePanel Style="{StaticResource TaskDetailsContainerStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Completetion Date:" Style="{StaticResource TaskDetailsTextStyle}"/>
+                        <TextBlock Text="{x:Bind CompletedDate}" Style="{StaticResource TaskDetailsTextStyle}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" RelativePanel.AlignRightWithPanel="True">
+                        <TextBlock Text="Due Date:" Style="{StaticResource TaskDetailsTextStyle}"/>
+                        <TextBlock Text="{x:Bind DueDate}" Style="{StaticResource TaskDetailsTextStyle}"/>
+                    </StackPanel>
+                </RelativePanel>
             </StackPanel>
         </DataTemplate>
     </Page.Resources>
+        
 
-    <StackPanel>
-        <GridView
-            x:Name="ListGridView"
-            ItemTemplate="{StaticResource CompletedTaskListTemplate}"
-            IsItemClickEnabled="False"
-            ItemClick="ListGridView_ItemClick"
-            SelectionMode="Single"
-            />
-    </StackPanel> 
+    <ScrollViewer>
+            <StackPanel>
+            <GridView
+                    x:Name="CompletedListGridview"
+                    ItemTemplate="{StaticResource CompletedTaskListTemplate}"
+                    IsItemClickEnabled="False"
+                    SelectionMode="Single"
+                    ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                    ItemsSource="{x:Bind ViewModel.CompletedTasks}"
+                    SelectionChanged="ToDoListGridview_SelectionChanged"
+                    Style="{StaticResource GridViewItemStyle }"
+                    />
+        </StackPanel>
+        </ScrollViewer>
+       
 
         
 

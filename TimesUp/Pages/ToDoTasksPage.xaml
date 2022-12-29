@@ -61,6 +61,10 @@
                         <TextBlock Text="Remaining Effort:" Style="{StaticResource TaskDetailsTextStyle}"/>
                         <TextBlock Text="{x:Bind RemainingEffort}" Style="{StaticResource TaskDetailsTextStyle}"/>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" RelativePanel.AlignRightWithPanel="True">
+                        <TextBlock Text="Due Date:" Style="{StaticResource TaskDetailsTextStyle}"/>
+                        <TextBlock Text="{x:Bind DueDate}" Style="{StaticResource TaskDetailsTextStyle}"/>
+                    </StackPanel>
                 </RelativePanel>
             </StackPanel>
         </DataTemplate>

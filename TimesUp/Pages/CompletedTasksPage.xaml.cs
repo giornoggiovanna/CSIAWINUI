@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using TimesUp.ViewModels;
 
 namespace TimesUp.Pages
 {
@@ -12,10 +13,10 @@ namespace TimesUp.Pages
         {
             this.InitializeComponent();
 
-            var tempList = CompletedTaskItem.GetItems();
-            ObservableCollection<CompletedTaskItem> tasks = new ObservableCollection<CompletedTaskItem>(tempList);
-            ListGridView.ItemsSource= tasks;
+            
         }
+
+        public CompletedTasksViewModel ViewModel { get; set; }
 
         private void ListGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -23,48 +24,5 @@ namespace TimesUp.Pages
         }
     }
 
-    public class CompletedTaskItem
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime DueDate { get; set; }
-        public int ExpectedEffort { get; set; }
-        public int ActualEffort { get; set; }
-
-        public static List<CompletedTaskItem> GetItems()
-        {
-
-            string[] nameDummyTexts = new[]
-            {
-                @"Work on Design project",
-                @"Study for Science",
-                @"Study for History",
-                @"Write English essay"
-            };
-
-            string[] descriptionDummyTexts = new[]
-            {
-                @"sjflaesf s",
-                @"slfjlsafd sa",
-                @"sjfl ass",
-                @"slfjselafd",
-            };
-
-            DateTime dummyDueDate = new DateTime();
-            dummyDueDate = DateTime.Now;
-            
-            Random random = new Random();
-            int dummyEstimatedEffort = random.Next(0, 50);  
-
-            List<CompletedTaskItem> objects = new List<CompletedTaskItem>();
-            objects.Add(new CompletedTaskItem()
-            {
-                Name = nameDummyTexts[random.Next(0, 3)],
-                Description = descriptionDummyTexts[random.Next(0, 3)],
-                DueDate = dummyDueDate,
-                ExpectedEffort = dummyEstimatedEffort,
-            });
-            return objects;
-        }
-    }
+    
 }
