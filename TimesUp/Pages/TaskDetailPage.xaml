@@ -25,6 +25,9 @@
             <Setter Property="FontStyle" Value="Italic"/>
             <Setter Property="FontWeight" Value="Light"/>
         </Style>
+        <Style TargetType="TextBlock" x:Key="ElapsedTimeStyle">
+            <Setter Property="FontSize" Value="90"/>
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -34,14 +37,21 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Due on:" Style="{StaticResource TaskDetailsTextStyle}" Margin="30, 0, 0, 0"/>
                 <TextBlock Text="{x:Bind ViewModel.DueDate}" Style="{StaticResource TaskDetailsTextStyle}"/>
-            </StackPanel>            
+            </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Expected Effort:" Style="{StaticResource TaskDetailsTextStyle}" Margin="30, 0, 0, 0"/>
                 <TextBlock Text="{x:Bind ViewModel.ExpectedEffort}" Style="{StaticResource TaskDetailsTextStyle}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Current Effort:" Style="{StaticResource TaskDetailsTextStyle}" Margin="30, 0, 0, 0"/>
-                <TextBlock Text="{x:Bind ViewModel.CurrentEffort}" Style="{StaticResource TaskDetailsTextStyle}"/>
+                <TextBlock Text="{x:Bind ViewModel.CurrentEffort, Mode=OneWay}" Style="{StaticResource TaskDetailsTextStyle}"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="{x:Bind ViewModel.ElapsedTimeFormatted, Mode=OneWay}" Style="{StaticResource ElapsedTimeStyle}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Name="btnStart" IsEnabled="{x:Bind ViewModel.CanStartTimer, Mode=OneWay}" Click="{x:Bind ViewModel.StartTimer}">Start</Button>
+                <Button Name="btnStop" IsEnabled="{x:Bind ViewModel.CanStopTimer, Mode=OneWay}" Click="{x:Bind ViewModel.StopTimer}">Stop</Button>
             </StackPanel>
         </StackPanel>
     </Grid>
