@@ -152,7 +152,7 @@ namespace TimesUp.Database
                 var selectCommand = new SqliteCommand();
                 selectCommand.Connection = db;
 
-                selectCommand.CommandText = "select TaskId, TaskName, TaskDescription, TaskDueDate, TaskExpectedEffort, TaskCurrentEffort from Tasks where TaskCompletedDate is not null;";
+                selectCommand.CommandText = "select * from Tasks where TaskCompletedDate is not null;";
 
                 var query = selectCommand.ExecuteReader();
 
@@ -168,7 +168,7 @@ namespace TimesUp.Database
                         DueDate = DateOnly.FromDateTime(query.GetDateTime(3)),
                         ExpectedEffort = query.GetInt32(4),
                         CurrentEffort = query.GetInt32(5),
-                        CompletedDate = query.GetDateTime(6)
+                        CompletedDate = DateOnly.FromDateTime(query.GetDateTime(6))
                     };
 
                     completedTasks.Add(task);

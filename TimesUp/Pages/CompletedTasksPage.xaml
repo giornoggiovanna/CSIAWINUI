@@ -59,7 +59,7 @@
                 </RelativePanel>
                 <RelativePanel Style="{StaticResource TaskDetailsContainerStyle}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Completetion Date:" Style="{StaticResource TaskDetailsTextStyle}"/>
+                        <TextBlock Text="Completion Date:" Style="{StaticResource TaskDetailsTextStyle}"/>
                         <TextBlock Text="{x:Bind CompletedDate}" Style="{StaticResource TaskDetailsTextStyle}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" RelativePanel.AlignRightWithPanel="True">

@@ -13,7 +13,7 @@ namespace TimesUp.Pages
         {
             this.InitializeComponent();
 
-            
+            ViewModel = new CompletedTasksViewModel();
         }
 
         public CompletedTasksViewModel ViewModel { get; set; }
