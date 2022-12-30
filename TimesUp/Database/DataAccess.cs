@@ -30,7 +30,7 @@ namespace TimesUp.Database
                         TaskDueDate date not null,
                         TaskExpectedEffort int not null,
                         TaskCurrentEffort int not null,
-                        TaskCompletedDate date
+                        TaskCompletedDate datetime null
                     )
                 """;
 
@@ -45,7 +45,7 @@ namespace TimesUp.Database
             return Path.Combine(ApplicationData.Current.LocalFolder.Path, DatabaseName);
         }
 
-        public static void AddTask(Task task) 
+        public static void AddTask(Task task)
         {
             var dbPath = GetDatabasePath();
 
@@ -54,7 +54,7 @@ namespace TimesUp.Database
                 db.Open();
 
                 var insertCommand = new SqliteCommand();
-                insertCommand.Connection= db;
+                insertCommand.Connection = db;
 
                 insertCommand.CommandText = "insert into Tasks (TaskId, TaskName, TaskDescription, TaskDueDate, TaskExpectedEffort, TaskCurrentEffort) values (@taskId, @taskName, @taskDescription, @taskDueDate, @taskExpectedEffort, @taskCurrentEffort);";
                 insertCommand.Parameters.AddWithValue("@taskId", task.Id);
@@ -63,9 +63,9 @@ namespace TimesUp.Database
                 insertCommand.Parameters.AddWithValue("@taskDueDate", task.DueDate);
                 insertCommand.Parameters.AddWithValue("@taskExpectedEffort", task.ExpectedEffort);
                 insertCommand.Parameters.AddWithValue("@taskCurrentEffort", task.CurrentEffort);
-            
+
                 insertCommand.ExecuteNonQuery();
-            }  
+            }
         }
 
         public static List<Task> GetToDoTasks()
@@ -120,7 +120,7 @@ namespace TimesUp.Database
 
                 var query = selectCommand.ExecuteReader();
 
-                if(query.Read())
+                if (query.Read())
                 {
                     var task = new Task
                     {
@@ -141,7 +141,7 @@ namespace TimesUp.Database
             }
         }
 
-        public static List<Task> GetCompletedTasks ()
+        public static List<Task> GetCompletedTasks()
         {
             var dbPath = GetDatabasePath();
 
@@ -152,7 +152,7 @@ namespace TimesUp.Database
                 var selectCommand = new SqliteCommand();
                 selectCommand.Connection = db;
 
-                selectCommand.CommandText = "select * from Tasks where TaskCompletedDate is not null;";
+                selectCommand.CommandText = "select TaskId, TaskName, TaskDescription, TaskDueDate, TaskExpectedEffort, TaskCurrentEffort, TaskCompletedDate from Tasks where TaskCompletedDate is not null;";
 
                 var query = selectCommand.ExecuteReader();
 
@@ -168,7 +168,7 @@ namespace TimesUp.Database
                         DueDate = DateOnly.FromDateTime(query.GetDateTime(3)),
                         ExpectedEffort = query.GetInt32(4),
                         CurrentEffort = query.GetInt32(5),
-                        CompletedDate = DateOnly.FromDateTime(query.GetDateTime(6))
+                        CompletedDate = query.GetDateTime(6)
                     };
 
                     completedTasks.Add(task);
@@ -176,8 +176,6 @@ namespace TimesUp.Database
 
                 return completedTasks;
             }
-
-
         }
     }
 }

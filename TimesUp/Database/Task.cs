@@ -10,6 +10,6 @@ namespace TimesUp.Database
         public DateOnly DueDate { get; set; }
         public int ExpectedEffort { get; set; }
         public int CurrentEffort { get; set; }
-        public DateOnly? CompletedDate { get; set; }
+        public DateTimeOffset? CompletedDate { get; set; }
     }
 }
