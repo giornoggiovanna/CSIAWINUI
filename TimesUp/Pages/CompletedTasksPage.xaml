@@ -70,27 +70,18 @@
             </StackPanel>
         </DataTemplate>
     </Page.Resources>
-        
 
     <ScrollViewer>
-            <StackPanel>
+        <StackPanel>
             <GridView
-                    x:Name="CompletedListGridview"
-                    ItemTemplate="{StaticResource CompletedTaskListTemplate}"
-                    IsItemClickEnabled="False"
-                    SelectionMode="Single"
-                    ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                    ItemsSource="{x:Bind ViewModel.CompletedTasks}"
-                    SelectionChanged="ToDoListGridview_SelectionChanged"
-                    Style="{StaticResource GridViewItemStyle }"
-                    />
+                x:Name="CompletedListGridview"
+                ItemTemplate="{StaticResource CompletedTaskListTemplate}"
+                IsItemClickEnabled="False"
+                SelectionMode="Single"
+                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                ItemsSource="{x:Bind ViewModel.CompletedTasks}"
+                Style="{StaticResource GridViewItemStyle }"
+            />
         </StackPanel>
-        </ScrollViewer>
-       
-
-        
-
-
-
-
+    </ScrollViewer>
 </Page>
