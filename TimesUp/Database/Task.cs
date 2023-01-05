@@ -9,7 +9,7 @@ namespace TimesUp.Database
         public string Description { get; set; } = string.Empty;
         public DateOnly DueDate { get; set; }
         public int ExpectedEffort { get; set; }
-        public int CurrentEffort { get; set; }
+        public TimeSpan CurrentEffort { get; set; }
         public DateTimeOffset? CompletedDate { get; set; }
     }
 }

@@ -40,8 +40,8 @@ namespace TimesUp.ViewModels
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public int ExpectedEffort { get; set; }
-        public int CurrentEffort { get; set; }
-        public int RemainingEffort { get => ExpectedEffort - CurrentEffort; }
+        public TimeSpan CurrentEffort { get; set; }
+        public int RemainingEffort { get => ExpectedEffort - CurrentEffort.Minutes; }
         public DateOnly DueDate { get; set; }
     }
 }

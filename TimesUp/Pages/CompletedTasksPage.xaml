@@ -54,7 +54,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" RelativePanel.AlignRightWithPanel="True">
                         <TextBlock Text="Current Effort:" Style="{StaticResource TaskDetailsTextStyle}"/>
-                        <TextBlock Text="{x:Bind ActualEffort}" Style="{StaticResource TaskDetailsTextStyle}"/>
+                        <TextBlock Text="{x:Bind CurrentEffort}" Style="{StaticResource TaskDetailsTextStyle}"/>
                     </StackPanel>
                 </RelativePanel>
                 <RelativePanel Style="{StaticResource TaskDetailsContainerStyle}">

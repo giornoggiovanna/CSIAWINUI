@@ -10,26 +10,45 @@ namespace TimesUp.ViewModels
 
         private DateTimeOffset? _startedTime;
 
+
+
         public TaskDetailViewModel()
         {
             _timer.Tick += OnTimerTick;
         }
-        
+
+        private Guid updateId;
+
         public Guid Id { get; private set; }
 
         public string Name { get; private set; } = string.Empty;
 
         public string Description { get; private set; } = string.Empty;
 
-        public int CurrentEffort { get; private set; }
+        private TimeSpan _currentEffort;
+
+        private TimeSpan privateCurrentEffort;
+
+        public TimeSpan CurrentEffort { 
+            get => _currentEffort;
+            private set 
+            { 
+                SetValue(ref _currentEffort, value);
+                OnPropertyChanged("CurrentEffort");
+            }
+        }
 
         public int ExpectedEffort { get; private set; }
 
         public DateOnly? DueDate { get; private set; }
 
-        public string ElapsedTimeFormatted { get => _elapsedTime.ToString(@"hh\:mm\:ss"); }
+        public string ElapsedTimeFormatted { get => ElapsedTime.ToString(@"hh\:mm\:ss"); }
+
+        public string CurrentEffortFormated { get => CurrentEffort.ToString(@"hh\:mm\:ss"); }
 
         private TimeSpan _elapsedTime = TimeSpan.Zero;
+
+        private TimeSpan placeholder = TimeSpan.Zero;
 
         public TimeSpan ElapsedTime { 
             get => _elapsedTime;
@@ -47,33 +66,63 @@ namespace TimesUp.ViewModels
         private void OnTimerTick(object? sender, object e)
         {
             ElapsedTime = DateTimeOffset.Now - _startedTime.Value;
+
+            CurrentEffort = CurrentEffort.Add(ElapsedTime);
+
+            if ((double)ExpectedEffort <= CurrentEffort.TotalMinutes) 
+            {
+            
+                _timer.Stop();
+                OnPropertyChanged("CanStartTimer");
+                OnPropertyChanged("CanStopTimer");
+
+                CurrentEffort = privateCurrentEffort;
+                DataAccess.UpdateCurrentEffort(updateId, CurrentEffort);
+            }
         }
 
         public void StartTimer()
         {
-            _startedTime = DateTimeOffset.Now;
-            _timer.Start();
+            if (ExpectedEffort > CurrentEffort.TotalMinutes)
+            {
 
-            OnPropertyChanged("CanStartTimer");
-            OnPropertyChanged("CanStopTimer");
+                _startedTime = DateTimeOffset.Now;
+                _timer.Start();
+
+                OnPropertyChanged("CanStartTimer");
+                OnPropertyChanged("CanStopTimer");
+
+            }
+            
+            
+
         }
 
         public void StopTimer()
         {
+            
             if (_timer.IsEnabled)
             {
+                CurrentEffort = privateCurrentEffort;
                 _timer.Stop();
 
                 OnPropertyChanged("CanStartTimer");
                 OnPropertyChanged("CanStopTimer");
 
+                
                 ElapsedTime = TimeSpan.Zero;
+
             }
+
+            DataAccess.UpdateCurrentEffort(updateId, CurrentEffort);
+
         }
 
         public void LoadTask(Guid id)
         {
             var dbTask = DataAccess.GetTask(id);
+
+            updateId = id;
 
             Id = dbTask.Id;
             Name = dbTask.Name;
@@ -82,5 +131,12 @@ namespace TimesUp.ViewModels
             ExpectedEffort = dbTask.ExpectedEffort;
             DueDate = dbTask.DueDate;
         }
+
+        public void OnCompleteBtnClick()
+        {
+            DataAccess.AddCompletionDate(updateId);
+        }
+
+
     }
 }

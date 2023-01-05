@@ -29,7 +29,7 @@ namespace TimesUp.Database
                         TaskDescription nvarchar(500) not null,
                         TaskDueDate date not null,
                         TaskExpectedEffort int not null,
-                        TaskCurrentEffort int not null,
+                        TaskCurrentEffort string not null,
                         TaskCompletedDate datetime null
                     )
                 """;
@@ -94,7 +94,7 @@ namespace TimesUp.Database
                         Description = query.GetString(2),
                         DueDate = DateOnly.FromDateTime(query.GetDateTime(3)),
                         ExpectedEffort = query.GetInt32(4),
-                        CurrentEffort = query.GetInt32(5)
+                        CurrentEffort = TimeSpan.Parse(query.GetString(5))
                     };
 
                     tasks.Add(task);
@@ -129,7 +129,7 @@ namespace TimesUp.Database
                         Description = query.GetString(2),
                         DueDate = DateOnly.FromDateTime(query.GetDateTime(3)),
                         ExpectedEffort = query.GetInt32(4),
-                        CurrentEffort = query.GetInt32(5)
+                        CurrentEffort = query.GetTimeSpan(5)
                     };
 
                     return task;
@@ -167,7 +167,7 @@ namespace TimesUp.Database
                         Description = query.GetString(2),
                         DueDate = DateOnly.FromDateTime(query.GetDateTime(3)),
                         ExpectedEffort = query.GetInt32(4),
-                        CurrentEffort = query.GetInt32(5),
+                        CurrentEffort = TimeSpan.Parse(query.GetString(5)),
                         CompletedDate = query.GetDateTime(6)
                     };
 
@@ -177,5 +177,106 @@ namespace TimesUp.Database
                 return completedTasks;
             }
         }
+
+        public static void UpdateCurrentEffort(Guid id, TimeSpan currentEffort)
+        {
+            var dbPath = GetDatabasePath();
+
+            using (var db = new SqliteConnection($"Filename={dbPath}"))
+            {
+                db.Open();
+
+                var updateCommand = new SqliteCommand();
+                updateCommand.Connection = db;
+                updateCommand.CommandText = """
+                    update Tasks
+                    set TaskCurrentEffort = @currentEffort
+                    where TaskId = @taskId;
+                    """;
+                updateCommand.Parameters.AddWithValue("@taskId", id);
+                updateCommand.Parameters.AddWithValue("@currentEffort", currentEffort);
+                updateCommand.ExecuteNonQuery();
+            }
+
+
+        }
+
+        public static void AddCompletionDate(Guid id)
+        {
+
+            var dbPath = GetDatabasePath();
+
+            using(var db = new SqliteConnection($"Filename={dbPath}"))
+            {
+                db.Open();
+
+                var updateCommand = new SqliteCommand();
+                updateCommand.Connection= db;
+                updateCommand.CommandText = """
+                    
+                    update Tasks
+                    set TaskCompletedDate = @completedDate
+                    where TaskId = @taskId;
+                    """;
+                updateCommand.Parameters.AddWithValue("@taskId", id);
+                updateCommand.Parameters.AddWithValue("@completedDate", DateTime.Now);
+                updateCommand.ExecuteNonQuery();
+
+            }
+
+        }
+
+        public static void EditTask(Task task)
+        {
+            var dbPath = GetDatabasePath();
+
+            using (var db = new SqliteConnection($"Filename={dbPath}"))
+            {
+                db.Open();
+
+                var updateCommand = new SqliteCommand();
+                updateCommand.Connection = db;
+
+                updateCommand.CommandText = """
+                    update Tasks
+                    set TaskName = @taskName,
+                    set TaskDescription = @taskDescription,
+                    set TaskDueDate = @taskDueDate,
+                    set TaskExpectedEffort = @taskExpectedEffort,,
+                    where TaskId = @taskId
+                    """;
+                updateCommand.Parameters.AddWithValue("@taskId", task.Id);
+                updateCommand.Parameters.AddWithValue("@taskName", task.Name);
+                updateCommand.Parameters.AddWithValue("@taskDescription", task.Description);
+                updateCommand.Parameters.AddWithValue("@taskDueDate", task.DueDate);
+                updateCommand.Parameters.AddWithValue("@taskExpectedEffort", task.ExpectedEffort);
+
+                updateCommand.ExecuteNonQuery();
+
+            }
+        }
+
+        public static void DeleteTask(Guid id)
+        {
+
+            var dbPath = GetDatabasePath();
+
+            using (var db = new SqliteConnection($"Filename={dbPath}"))
+            {
+                db.Open();
+
+                var deleteCommand = new SqliteCommand();
+                deleteCommand.Connection = db;
+                deleteCommand.CommandText = """
+                    
+                    delete from Tasks
+                    where TaskId = @taskId;
+                    """;
+                deleteCommand.Parameters.AddWithValue("@taskId", id);
+                deleteCommand.ExecuteNonQuery();
+            }
+
+        }
+
     }
 }

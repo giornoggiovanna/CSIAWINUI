@@ -25,7 +25,7 @@ namespace TimesUp.ViewModels
                     Id = completedTask.Id, 
                     Name = completedTask.Name, 
                     Description= completedTask.Description,
-                    ActualEffort = completedTask.CurrentEffort,
+                    CurrentEffort = completedTask.CurrentEffort,
                     ExpectedEffort= completedTask.ExpectedEffort,
                     DueDate= completedTask.DueDate,
                     CompletedDate= completedTask.DueDate
@@ -41,7 +41,7 @@ namespace TimesUp.ViewModels
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public int ExpectedEffort { get; set; }
-        public int ActualEffort { get; set; }
+        public TimeSpan CurrentEffort { get; set; }
         public DateOnly DueDate { get; set; }
         public DateOnly CompletedDate { get; set; }
     }
